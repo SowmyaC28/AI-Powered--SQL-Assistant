@@ -5,10 +5,6 @@ from langchain.chains.openai_tools import create_extraction_chain_pydantic
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 import os
-
-ChatOpenAI.model_rebuild()
-
-llm = ChatOpenAI(model="gpt-3.5-turbo-1106", temperature=0)
 from typing import List
 
 @st.cache_data
@@ -42,6 +38,10 @@ def get_tables(tables: List[Table]) -> List[str]:
     return tables
 
 
+
+
+llm = ChatOpenAI(model="gpt-3.5-turbo-1106", temperature=0)
+
 # table_names = "\n".join(db.get_usable_table_names())
 table_details = get_table_details()
 table_details_prompt = f"""Return the names of ALL the SQL tables that MIGHT be relevant to the user question. \
@@ -52,3 +52,5 @@ The tables are:
 Remember to include ALL POTENTIALLY RELEVANT tables, even if you're not sure that they're needed."""
 
 table_chain = {"input": itemgetter("question")} | create_extraction_chain_pydantic(Table, llm, system_message=table_details_prompt) | get_tables
+
+ChatOpenAI.model_rebuild()
