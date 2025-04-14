@@ -6,6 +6,8 @@ from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 import os
 
+ChatOpenAI.model_rebuild()
+
 llm = ChatOpenAI(model="gpt-3.5-turbo-1106", temperature=0)
 from typing import List
 
